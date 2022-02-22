@@ -2,27 +2,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterfire_ui/auth.dart';
-import 'package:memorabledubai/src/pages/auth/sign_up.dart';
+import 'package:memorabledubai/src/pages/dashboard.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/logo.dart';
 import '../../widgets/textfield.dart';
-import '../dashboard.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
-  final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
-
+class _SignUpState extends State<SignUp> {
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+  TextEditingController nameCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AuthFlowBuilder<EmailFlowController>(
+      action: AuthAction.signUp,
       listener: (oldState, state, controller) {
         if (state is SignedIn) {
           EasyLoading.dismiss();
@@ -81,7 +81,9 @@ class _SignInState extends State<SignIn> {
                             Container(
                               margin: EdgeInsets.only(left: 20,right: 20),
                               child: Column(
-                                children:  [
+                                children: [
+                                  TextFieldApp(hint: 'NAME',controller: nameCtrl,),
+                                  SizedBox(height: 15,),
                                   TextFieldApp(hint: 'EMAIL',controller: emailCtrl,),
                                   SizedBox(height: 15,),
                                   TextFieldApp(hint: 'PASSWORD',isPasswordl: true,controller: passwordCtrl,),
@@ -99,7 +101,7 @@ class _SignInState extends State<SignIn> {
                       height: 45,
                       width: 170,
                       margin: EdgeInsets.only(left: 50,right: 50),
-                      child: GradientButton(buttonTEXT: 'SIGN IN', function: (){
+                      child: GradientButton(buttonTEXT: 'SIGN UP', function: (){
                         FocusScope.of(context).unfocus();
                         if(emailCtrl.text!=null && emailCtrl.text!='' && passwordCtrl.text!=null && passwordCtrl.text!=''){
 
@@ -116,9 +118,9 @@ class _SignInState extends State<SignIn> {
                       height: 45,
                       width: 250,
                       margin: EdgeInsets.only(left: 50,right: 50),
-                      child: GradientButton(buttonTEXT: 'CREATE AN ACCOUNT',
+                      child: GradientButton(buttonTEXT: 'ALREADY HAVE AN ACCOUNT?',
                         color: Colors.white,textColor: Colors.black, function: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SignUp()));
+                          Navigator.pop(context);
                         },)),
                 ],
               ),

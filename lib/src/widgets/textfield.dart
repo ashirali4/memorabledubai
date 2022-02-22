@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 class TextFieldApp extends StatefulWidget {
   final String hint;
   final bool isPasswordl;
-  const TextFieldApp({Key? key,required this.hint,this.isPasswordl=false}) : super(key: key);
+  final TextEditingController controller;
+  const TextFieldApp({Key? key,required this.hint,this.isPasswordl=false,required this.controller}) : super(key: key);
 
   @override
   _TextFieldAppState createState() => _TextFieldAppState();
@@ -17,6 +18,7 @@ class _TextFieldAppState extends State<TextFieldApp> {
         style: TextStyle(
           color: Colors.white
         ),
+        controller: widget.controller,
         obscureText: widget.isPasswordl,
         decoration: InputDecoration(
             border: OutlineInputBorder(
