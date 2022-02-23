@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:memorabledubai/src/pages/auth/sign_in.dart';
+import 'package:memorabledubai/src/pages/dashboard_pages/list.dart';
 
 import 'dashboard_pages/home.dart';
 class Dashboard extends StatefulWidget {
@@ -16,6 +17,12 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 
+  int selectedIndex=0;
+
+  List<Widget> propertList=[
+    HomePage(),
+    PropertyList(),
+  ];
 
 
   showAlertDialog(BuildContext context) {
@@ -109,7 +116,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      body: HomePage(),
+      body: propertList[selectedIndex],
         bottomNavigationBar: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -124,6 +131,7 @@ class _DashboardState extends State<Dashboard> {
                 topRight: Radius.circular(30.0),
               ),
               child: BottomNavigationBar(
+                currentIndex: selectedIndex,
                 selectedItemColor: Colors.black,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
@@ -131,6 +139,11 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                       icon: Icon(LineIcons.users), label: 'Clients')
                 ],
+              onTap: (value){
+                  setState(() {
+                    selectedIndex=value;
+                  });
+              },
               ),
             )
         )

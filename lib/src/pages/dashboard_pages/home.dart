@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:memorabledubai/src/pages/auth/sign_in.dart';
+import 'package:memorabledubai/src/pages/fourm/add_case.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -15,36 +16,41 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Widget WidgetBox(String text,String Iconname,Function function) {
-    return Container(
-      height: 150,
-      padding: EdgeInsets.only(
-          left: 15, right: 15, top: 30, bottom: 15),
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 10,
-              blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
+    return InkWell(
+      onTap: (){
+        function();
+      },
+      child: Container(
+        height: 150,
+        padding: EdgeInsets.only(
+            left: 15, right: 15, top: 30, bottom: 15),
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 10,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(08)),
+            color: Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/dashboard/'+Iconname+'.svg',color: Colors.black,height: 50,),
+            SizedBox(
+              height: 15,
             ),
+            Expanded(
+              child: Text(
+                text,
+                style: GoogleFonts.raleway(fontSize: 18),
+              ),
+            )
           ],
-          borderRadius: BorderRadius.all(Radius.circular(08)),
-          color: Colors.white),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SvgPicture.asset('assets/dashboard/'+Iconname+'.svg',color: Colors.black,height: 50,),
-          SizedBox(
-            height: 15,
-          ),
-          Expanded(
-            child: Text(
-              text,
-              style: GoogleFonts.raleway(fontSize: 18),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
@@ -75,7 +81,12 @@ class _HomePageState extends State<HomePage> {
             children: [
               Expanded(child: WidgetBox('Website','globe',(){})),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('Add Client','paper',(){})),
+              Expanded(child: WidgetBox('Add Client','paper',(){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AddFormSecond()));
+              })),
             ],
           )
         ],

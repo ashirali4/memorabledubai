@@ -5,7 +5,8 @@ class GradientButton extends StatelessWidget {
   final Color color;
   final Color textColor;
   final Function function;
-  const GradientButton({Key? key,this.width=200,required this.buttonTEXT,this.color=Colors.black,this.textColor=Colors.white,required this.function}) : super(key: key);
+  final double radius;
+  const GradientButton({Key? key,this.width=200,required this.buttonTEXT,this.color=Colors.black,this.textColor=Colors.white,required this.function,this.radius=80}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class GradientButton extends StatelessWidget {
       onPressed: () {
         this.function();
       },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(this.radius)),
       padding: const EdgeInsets.all(0.0),
       child: Ink(
         decoration: BoxDecoration(
@@ -27,7 +28,7 @@ class GradientButton extends StatelessWidget {
                 stops: [0.0, 1.0],
                 tileMode: TileMode.clamp
             ),
-          borderRadius: BorderRadius.all(Radius.circular(80.0)),
+          borderRadius: BorderRadius.all(Radius.circular(this.radius)),
         ),
         child: Container(
           constraints: const BoxConstraints(minWidth: 88.0, minHeight: 36.0), // min sizes for Material buttons

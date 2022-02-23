@@ -84,7 +84,7 @@ class _SignInState extends State<SignIn> {
                                 children:  [
                                   TextFieldApp(hint: 'EMAIL',controller: emailCtrl,),
                                   SizedBox(height: 15,),
-                                  TextFieldApp(hint: 'PASSWORD',isPasswordl: true,controller: passwordCtrl,),
+                                  TextFieldApp(hint: 'PASSWORD',isPasswordl: true,controller: passwordCtrl),
                                   SizedBox(height: 20,)
                                 ],
                               ),
