@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Widget WidgetBox(String text,String Iconname,Function function) {
+  Widget WidgetBox(String text,String Iconname,Function function,[bool isPng=false,double height=40,double distance=15]) {
     return InkWell(
       onTap: (){
         function();
@@ -39,14 +39,17 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/dashboard/'+Iconname+'.svg',color: Colors.black,height: 50,),
+            Container(
+              child:!isPng?SvgPicture.asset('assets/dashboard/'+Iconname+'.svg',color: Colors.black,height: 50,):Image.asset('assets/dashboard/'+Iconname+'.png',height: height)
+            ),
             SizedBox(
-              height: 15,
+              height: distance,
             ),
             Expanded(
               child: Text(
                 text,
                 style: GoogleFonts.raleway(fontSize: 18),
+                textAlign: TextAlign.center,
               ),
             )
           ],
@@ -63,32 +66,44 @@ class _HomePageState extends State<HomePage> {
         children: [
           Row(
             children: [
-              Expanded(child: WidgetBox('Our Portal 01','building',(){})),
+              Expanded(child: WidgetBox('SEARCH PORTAL PF','building',(){})),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('Our Portal 02','build2',(){})),
+              Expanded(child: WidgetBox('SEARCH PORTAL DB','build2',(){})),
             ],
           ),
           SizedBox(height: 15,),
           Row(
             children: [
-              Expanded(child: WidgetBox('Our Portal 03','house',(){})),
+              Expanded(child: WidgetBox('SEARCH PORTAL BT ','house',(){})),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('Our Portal 04','real-estate',(){})),
+              Expanded(child: WidgetBox('MEMORABLE','black_icon',(){},true,80,0)),
             ],
           ),
           SizedBox(height: 15,),
           Row(
             children: [
-              Expanded(child: WidgetBox('Website','globe',(){})),
+              Expanded(child: WidgetBox('OUR PARTNER EMAAR  ','emaar',(){},true,60,5)),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('Add Client','paper',(){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AddFormSecond()));
-              })),
+              Expanded(child: WidgetBox('DUBAI PROPERTIES','DP',(){},true,60,5)),
             ],
-          )
+          ),
+          SizedBox(height: 15,),
+          Row(
+            children: [
+              Expanded(child: WidgetBox('OUR PARTNER DAMAC','Damac',(){},true,60,5)),
+              SizedBox(width: 15),
+              Expanded(child: WidgetBox('OUR PARTNER NAKHEEL','Nakheel',(){},true,60,5)),
+            ],
+          ),
+          SizedBox(height: 15,),
+          Row(
+            children: [
+              Expanded(child: WidgetBox('OUR PARTNER SOBHA','Sobha',(){},true,60,5)),
+              SizedBox(width: 15),
+              Expanded(child: WidgetBox('THE POWER OF RESPECT','black_icon',(){},true,60,5)),
+            ],
+          ),
+          SizedBox(height: 15,),
         ],
       ),
     );
