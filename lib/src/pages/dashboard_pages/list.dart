@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../../widgets/customlistView.dart';
+import '../fourm/add_case.dart';
 
 
 // import '../pages/profile/edit_profile.dart';
@@ -39,9 +40,23 @@ class _ProfileMainState extends State<PropertyList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-      child:  listViewBuilder(),
+    return Scaffold(
+      body: Container(
+        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+        child:  listViewBuilder(),
+
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  AddFormSecond()),
+          );
+        },
+        label: const Text('Add Client'),
+        icon: const Icon(Icons.add),
+        backgroundColor: Colors.black,
+      ),
     );
   }
 

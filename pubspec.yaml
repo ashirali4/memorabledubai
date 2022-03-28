@@ -44,6 +44,8 @@ dependencies:
   line_icons: ^2.0.1
   image_picker: ^0.8.4+9
   nanoid: ^1.0.0
+  flutter_inappwebview: ^5.3.2
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:
