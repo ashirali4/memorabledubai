@@ -1,14 +1,19 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:memorabledubai/src/widgets/textfield.dart';
+import 'package:path/path.dart' as path;
 
 import '../../net.dart';
 import '../../widgets/button.dart';
 import '../../widgets/imageWidget.dart';
+import '../../widgets/logo.dart';
 
 class AddFormSecond extends StatefulWidget {
   AddFormSecond({Key? key}) : super(key: key);
@@ -19,9 +24,12 @@ class AddFormSecond extends StatefulWidget {
 
 class _AddFormSecondState extends State<AddFormSecond> {
   List<File> _image = [];
+
+  List<String> imagesUrl= [];
   final picker = ImagePicker();
   TextEditingController name  = TextEditingController();
   TextEditingController comments  = TextEditingController(text: '');
+  FirebaseStorage storage = FirebaseStorage.instance;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -82,6 +90,24 @@ class _AddFormSecondState extends State<AddFormSecond> {
     }
   }
 
+  Future uploadImageToFirebase(File imageFile) async {
+    try {
+      Reference ref = storage.ref().child(FirebaseAuth.instance.currentUser!.uid + DateTime.now().toString());
+      UploadTask uploadTask = ref.putFile(imageFile);
+      await uploadTask.then((res) {
+        res.ref.getDownloadURL().then((value){
+          setState(() {
+            imagesUrl.add(value);
+          });
+        });
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -92,6 +118,7 @@ class _AddFormSecondState extends State<AddFormSecond> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
@@ -109,7 +136,7 @@ class _AddFormSecondState extends State<AddFormSecond> {
           child: Column(
             children: [
               SizedBox(height: 50,),
-              SvgPicture.asset('assets/dashboard/add.svg',height: 150,),
+              MobileAppLogo(height: 150,),
               SizedBox(height: 50,),
               ChooseImages(),
               TextFieldApp(
@@ -132,10 +159,16 @@ class _AddFormSecondState extends State<AddFormSecond> {
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(bottom: 20),
                   child: Container(
-                    child: GradientButton(buttonTEXT: 'Add Client Case', function: (){
+                    child: GradientButton(buttonTEXT: 'Add Client Case', function: () async {
                       FocusScope.of(context).unfocus();
                       if(name.text!=null && name.text!='' ){
-                        FirebaseDB.addcase(name: name.text, comments: comments.text);
+                        for(int a=0;a<_image.length;a++){
+                         await uploadImageToFirebase(_image[a]);
+                         }
+                        FirebaseDB.addcase(name: name.text, comments: comments.text,iamges: imagesUrl);
+                        setState(() {
+                          imagesUrl.clear();
+                        });
                       }else{
                         EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
                       }

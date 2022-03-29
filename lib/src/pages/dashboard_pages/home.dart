@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Expanded(child: WidgetBox('OUR PARTNER SOBHA','Sobha','https://www.sobha.com/',true,60,5)),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('THE POWER OF RESPECT','black_icon','',true,60,5)),
+              Expanded(child: WidgetBox('THE POWER OF RESPECT','handshake','')),
             ],
           ),
           SizedBox(height: 15,),

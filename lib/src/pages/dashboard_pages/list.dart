@@ -122,20 +122,14 @@ class _ProfileMainState extends State<PropertyList> {
                                       height: 05,
                                     ),
                                     Text(
-                                      'CNIC: ' + user['id'],
+                                      'ID: ' + user['id'],
                                       style: GoogleFonts.raleway(
                                         fontSize: 15,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    Text(
-                                      'Patient#: ' + user['comments'],
-                                      style: GoogleFonts.raleway(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+
                                   ],
                                 )
                               ],

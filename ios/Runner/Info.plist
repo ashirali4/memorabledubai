@@ -6,6 +6,12 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Memorabledubai</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Allow Photos access to add photos.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Need Microphone Permission to recrod video</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Needs Images Permission to select images</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

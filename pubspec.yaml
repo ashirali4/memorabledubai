@@ -46,6 +46,7 @@ dependencies:
   nanoid: ^1.0.0
   flutter_inappwebview: ^5.3.2
   url_launcher: ^6.0.20
+  firebase_storage: ^10.2.9
 
 dev_dependencies:
   flutter_test:
