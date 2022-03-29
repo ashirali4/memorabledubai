@@ -17,6 +17,7 @@ import 'package:line_icons/line_icons.dart';
 
 import '../../widgets/customlistView.dart';
 import '../fourm/add_case.dart';
+import '../fourm/view_case.dart';
 
 
 // import '../pages/profile/edit_profile.dart';
@@ -31,7 +32,7 @@ class PropertyList extends StatefulWidget {
 
 class _ProfileMainState extends State<PropertyList> {
   var usersQuery = FirebaseFirestore.instance
-      .collection('cases');
+      .collection('cases').where("userid",isEqualTo: FirebaseAuth.instance.currentUser!.uid);
 
   String name = '';
   String comments = '';
@@ -60,15 +61,14 @@ class _ProfileMainState extends State<PropertyList> {
     );
   }
 
-  Widget StaticView(IconData icon, var user) {
+  Widget StaticView(IconData icon, var user,String id) {
     return InkWell(
       onTap: () {
-        // print(user);
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (BuildContext context) => AddEditCase(
-        //             addEditCase: CaseOpType.EditCase, record: user)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => ViewCase(
+                    data: user)));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -122,7 +122,7 @@ class _ProfileMainState extends State<PropertyList> {
                                       height: 05,
                                     ),
                                     Text(
-                                      'ID: ' + user['id'],
+                                      'ID: ' + id,
                                       style: GoogleFonts.raleway(
                                         fontSize: 15,
                                         color: Colors.black,
@@ -161,7 +161,7 @@ class _ProfileMainState extends State<PropertyList> {
       itemBuilder: (context, snapshot) {
         Map<String, dynamic> user = snapshot.data();
         print("asd" + snapshot.toString());
-        return StaticView(LineIcons.medicalNotes, user);
+        return StaticView(LineIcons.medicalNotes, user,snapshot.id.toString());
       },
     );
   }

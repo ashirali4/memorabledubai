@@ -22,7 +22,8 @@ class FirebaseDB {
     Map<String, dynamic> data = <String, dynamic>{
       "name": name,
       "comments": comments,
-      "images" : iamges
+      "images" : iamges,
+      "userid" : FirebaseAuth.instance.currentUser!.uid
     };
 
     await documentReferencer

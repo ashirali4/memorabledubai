@@ -94,18 +94,31 @@ class _AddFormSecondState extends State<AddFormSecond> {
     try {
       Reference ref = storage.ref().child(FirebaseAuth.instance.currentUser!.uid + DateTime.now().toString());
       UploadTask uploadTask = ref.putFile(imageFile);
-      await uploadTask.then((res) {
+      uploadTask.then((res) {
         res.ref.getDownloadURL().then((value){
-          setState(() {
-            imagesUrl.add(value);
-          });
+          imagesUrl.add(value);
         });
+
       });
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         print(error);
       }
     }
+  }
+
+
+  Future<List<String>> uploadFiles(List<File> _images) async {
+    var imageUrls = await Future.wait(_images.map((_image) => uploadFile(_image)));
+    print(imageUrls);
+    return imageUrls;
+  }
+
+  Future<String> uploadFile(File _image) async {
+    Reference ref = storage.ref().child(FirebaseAuth.instance.currentUser!.uid + DateTime.now().toString());
+    UploadTask uploadTask = ref.putFile(_image);
+    await uploadTask.whenComplete(() => null);
+    return await ref.getDownloadURL();
   }
 
   @override
@@ -161,14 +174,21 @@ class _AddFormSecondState extends State<AddFormSecond> {
                   child: Container(
                     child: GradientButton(buttonTEXT: 'Add Client Case', function: () async {
                       FocusScope.of(context).unfocus();
+                      EasyLoading.show(status: 'Please Wait...');
+
                       if(name.text!=null && name.text!='' ){
-                        for(int a=0;a<_image.length;a++){
-                         await uploadImageToFirebase(_image[a]);
-                         }
+                        // for(int a=0;a<_image.length;a++){
+                        //  await uploadImageToFirebase(_image[a]);
+                        //  }
+                        imagesUrl = await uploadFiles(_image);
                         FirebaseDB.addcase(name: name.text, comments: comments.text,iamges: imagesUrl);
                         setState(() {
                           imagesUrl.clear();
                         });
+                        EasyLoading.dismiss();
+
+                        EasyLoading.showToast('Case has been Added!',toastPosition: EasyLoadingToastPosition.bottom);
+                        Navigator.pop(context);
                       }else{
                         EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
                       }
