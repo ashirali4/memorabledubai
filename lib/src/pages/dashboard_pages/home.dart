@@ -45,7 +45,7 @@ class MyInAppBrowser extends InAppBrowser {
 
 class HomePage extends StatefulWidget {
   final MyInAppBrowser browser = new MyInAppBrowser();
-   HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -53,23 +53,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var options = InAppBrowserClassOptions(
-
-      crossPlatform: InAppBrowserOptions(hideUrlBar: false,),
+      crossPlatform: InAppBrowserOptions(
+          hideUrlBar: false, toolbarTopBackgroundColor: Colors.white),
       inAppWebViewGroupOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(javaScriptEnabled: true)));
 
-  Widget WidgetBox(String text,String Iconname,String function,[bool isPng=false,double height=40,double distance=15]) {
+  Widget WidgetBox(String text, String Iconname, String function,
+      [bool isPng = false, double height = 40, double distance = 15]) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         widget.browser.openUrlRequest(
-            urlRequest: URLRequest(url: Uri.parse(function)),
-            options: options);
+            urlRequest: URLRequest(url: Uri.parse(function)), options: options);
       },
       child: Container(
         height: 150,
-        padding: EdgeInsets.only(
-            left: 15, right: 15, top: 30, bottom: 15),
-        margin: EdgeInsets.only(top: 05,bottom: 05,left: 05,right: 05),
+        padding: EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 15),
+        margin: EdgeInsets.only(top: 05, bottom: 05, left: 05, right: 05),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -86,8 +85,14 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              child:!isPng?SvgPicture.asset('assets/dashboard/'+Iconname+'.svg',color: Colors.black,height: 50,):Image.asset('assets/dashboard/'+Iconname+'.png',height: height)
-            ),
+                child: !isPng
+                    ? SvgPicture.asset(
+                        'assets/dashboard/' + Iconname + '.svg',
+                        color: Colors.black,
+                        height: 50,
+                      )
+                    : Image.asset('assets/dashboard/' + Iconname + '.png',
+                        height: height)),
             SizedBox(
               height: distance,
             ),
@@ -106,10 +111,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: [
@@ -118,53 +122,86 @@ class _HomePageState extends State<HomePage> {
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(bottom: 20),
               child: Container(
-                child: GradientButton(buttonTEXT: 'Add Client Case', function: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  AddFormSecond()),
-                  );
-                },radius: 10,),
+                child: GradientButton(
+                  buttonTEXT: 'Add Client Case',
+                  function: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddFormSecond()),
+                    );
+                  },
+                  radius: 10,
+                ),
               )),
           Row(
             children: [
-              Expanded(child: WidgetBox('SEARCH PORTAL PF','building','https://www.propertyfinder.ae/')),
+              Expanded(
+                  child: WidgetBox('SEARCH PORTAL PF', 'building',
+                      'https://www.propertyfinder.ae/')),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('SEARCH PORTAL DB','build2','https://www.propertyfinder.ae/')),
+              Expanded(
+                  child: WidgetBox('SEARCH PORTAL DB', 'build2',
+                      'https://www.propertyfinder.ae/')),
             ],
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Row(
             children: [
-              Expanded(child: WidgetBox('SEARCH PORTAL BT ','house','https://www.bayut.com/')),
+              Expanded(
+                  child: WidgetBox(
+                      'SEARCH PORTAL BT ', 'house', 'https://www.bayut.com/')),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('MEMORABLE','black_icon','https://www.memorabledubai.com/',true,80,0)),
+              Expanded(
+                  child: WidgetBox('MEMORABLE', 'black_icon',
+                      'https://www.memorabledubai.com/', true, 80, 0)),
             ],
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Row(
             children: [
-              Expanded(child: WidgetBox('OUR PARTNER EMAAR  ','emaar','https://properties.emaar.com/',true,60,5)),
+              Expanded(
+                  child: WidgetBox('OUR PARTNER EMAAR  ', 'emaar',
+                      'https://properties.emaar.com/', true, 60, 5)),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('DUBAI PROPERTIES','DP','https://www.dp.ae/',true,60,5)),
+              Expanded(
+                  child: WidgetBox('DUBAI PROPERTIES', 'DP',
+                      'https://www.dp.ae/', true, 60, 5)),
             ],
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Row(
             children: [
-              Expanded(child: WidgetBox('OUR PARTNER DAMAC','Damac','https://www.damacproperties.com/',true,60,5)),
+              Expanded(
+                  child: WidgetBox('OUR PARTNER DAMAC', 'Damac',
+                      'https://www.damacproperties.com/', true, 60, 5)),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('OUR PARTNER NAKHEEL','Nakheel','https://www.nakheel.com/',true,60,5)),
+              Expanded(
+                  child: WidgetBox('OUR PARTNER NAKHEEL', 'Nakheel',
+                      'https://www.nakheel.com/', true, 60, 5)),
             ],
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Row(
             children: [
-              Expanded(child: WidgetBox('OUR PARTNER SOBHA','Sobha','https://www.sobha.com/',true,60,5)),
+              Expanded(
+                  child: WidgetBox('OUR PARTNER SOBHA', 'Sobha',
+                      'https://www.sobha.com/', true, 60, 5)),
               SizedBox(width: 15),
-              Expanded(child: WidgetBox('THE POWER OF RESPECT','handshake','')),
+              Expanded(
+                  child: WidgetBox('THE POWER OF RESPECT', 'handshake', '')),
             ],
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:memorabledubai/src/pages/auth/sign_in.dart';
 import 'package:memorabledubai/src/pages/dashboard_pages/list.dart';
 
 import 'dashboard_pages/home.dart';
+
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
@@ -16,14 +17,12 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  int selectedIndex = 0;
 
-  int selectedIndex=0;
-
-  List<Widget> propertList=[
+  List<Widget> propertList = [
     HomePage(),
     PropertyList(),
   ];
-
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
@@ -39,9 +38,8 @@ class _DashboardState extends State<Dashboard> {
         await FirebaseAuth.instance.signOut();
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => SignIn()),
-                (Route<dynamic> route) => false);
+            MaterialPageRoute(builder: (BuildContext context) => SignIn()),
+            (Route<dynamic> route) => false);
       },
     );
 
@@ -64,65 +62,66 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Welcome Ali Hamza',
-          style: GoogleFonts.raleway(color: Colors.black,fontWeight: FontWeight.bold),
-        ),
-        leadingWidth: 0,
-        elevation: 0,
-        actions: [
-          Container(
-            margin: EdgeInsets.only(bottom: 5),
-            padding: const EdgeInsets.only(right: 15.0, top: 05),
-            child: InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 3),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(.2),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: InkWell(
-                  onTap: () async {
-                    showAlertDialog(context);
-                  },
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        color: Colors.black87,
-                        size: 20,
-                      ),
-                      SizedBox(
-                        width: 05,
-                      ),
-                      Text(
-                        'Logout',
-                        style: GoogleFonts.poppins(
-                            fontSize: 12, color: Colors.black87),
-                      )
-                    ],
+        appBar: AppBar(
+          leading: Container(),
+          backgroundColor: Colors.transparent,
+          title: Text(
+            'Memorable Dubai',
+            style: GoogleFonts.raleway(
+                color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          leadingWidth: 0,
+          elevation: 0,
+          actions: [
+            Container(
+              margin: EdgeInsets.only(bottom: 5),
+              padding: const EdgeInsets.only(right: 15.0, top: 05),
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 3),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(.2),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: InkWell(
+                    onTap: () async {
+                      showAlertDialog(context);
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          color: Colors.black87,
+                          size: 20,
+                        ),
+                        SizedBox(
+                          width: 05,
+                        ),
+                        Text(
+                          'Logout',
+                          style: GoogleFonts.poppins(
+                              fontSize: 12, color: Colors.black87),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: propertList[selectedIndex],
+          ],
+        ),
+        body: propertList[selectedIndex],
         bottomNavigationBar: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(30), topLeft: Radius.circular(30)),
               boxShadow: [
-                BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                BoxShadow(
+                    color: Colors.black38, spreadRadius: 0, blurRadius: 10),
               ],
             ),
             child: ClipRRect(
@@ -139,14 +138,12 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                       icon: Icon(LineIcons.users), label: 'Clients')
                 ],
-              onTap: (value){
+                onTap: (value) {
                   setState(() {
-                    selectedIndex=value;
+                    selectedIndex = value;
                   });
-              },
+                },
               ),
-            )
-        )
-    );
+            )));
   }
 }
