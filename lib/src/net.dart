@@ -14,7 +14,8 @@ class FirebaseDB {
   static Future<void> addcase({
     required String name,
     required String comments,
-    required List<String> iamges
+    required List<String> iamges,
+    required List<String> commentsimage
   }) async {
     var id = customAlphabet('H1234567890', 10);
     DocumentReference documentReferencer = _mainCollectionHospitals.doc(id);
@@ -23,7 +24,8 @@ class FirebaseDB {
       "name": name,
       "comments": comments,
       "images" : iamges,
-      "userid" : FirebaseAuth.instance.currentUser!.uid
+      "userid" : FirebaseAuth.instance.currentUser!.uid,
+      "image_comments" : commentsimage
     };
 
     await documentReferencer

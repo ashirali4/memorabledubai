@@ -66,7 +66,6 @@ class _HomePageState extends State<HomePage> {
             urlRequest: URLRequest(url: Uri.parse(function)), options: options);
       },
       child: Container(
-        height: 150,
         padding: EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 15),
         margin: EdgeInsets.only(top: 05, bottom: 05, left: 05, right: 05),
         decoration: BoxDecoration(
@@ -96,12 +95,10 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: distance,
             ),
-            Expanded(
-              child: Text(
-                text,
-                style: GoogleFonts.raleway(fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
+            Text(
+              text,
+              style: GoogleFonts.raleway(fontSize: 15),
+              textAlign: TextAlign.center,
             )
           ],
         ),
@@ -164,12 +161,12 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: [
               Expanded(
-                  child: WidgetBox('OUR PARTNER EMAAR  ', 'emaar',
-                      'https://properties.emaar.com/', true, 60, 5)),
+                  child: WidgetBox('EMAAR  ', 'emaar',
+                      'https://properties.emaar.com/', true, 60, 28)),
               SizedBox(width: 15),
               Expanded(
                   child: WidgetBox('DUBAI PROPERTIES', 'DP',
-                      'https://www.dp.ae/', true, 60, 5)),
+                      'https://www.dp.ae/', true, 60, 10)),
             ],
           ),
           SizedBox(
@@ -178,11 +175,11 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: [
               Expanded(
-                  child: WidgetBox('OUR PARTNER DAMAC', 'Damac',
+                  child: WidgetBox('DAMAC', 'Damac',
                       'https://www.damacproperties.com/', true, 60, 5)),
               SizedBox(width: 15),
               Expanded(
-                  child: WidgetBox('OUR PARTNER NAKHEEL', 'Nakheel',
+                  child: WidgetBox('NAKHEEL', 'Nakheel',
                       'https://www.nakheel.com/', true, 60, 5)),
             ],
           ),
@@ -192,11 +189,12 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: [
               Expanded(
-                  child: WidgetBox('OUR PARTNER SOBHA', 'Sobha',
-                      'https://www.sobha.com/', true, 60, 5)),
+                  child: WidgetBox('SOBHA', 'Sobha',
+                      'https://www.sobha.com/', true, 60, 20)),
               SizedBox(width: 15),
               Expanded(
-                  child: WidgetBox('THE POWER OF RESPECT', 'handshake', '')),
+                  child: WidgetBox('THE POWER OF RESPECT', 'handshake',
+                      'https://www.memorabledubai.com/respect')),
             ],
           ),
           SizedBox(

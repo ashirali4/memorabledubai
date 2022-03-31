@@ -24,15 +24,14 @@ class AddFormSecond extends StatefulWidget {
 
 class _AddFormSecondState extends State<AddFormSecond> {
   List<File> _image = [];
-
-  List<String> imagesUrl= [];
+  List<String> imagecomments = [];
+  List<String> imagesUrl = [];
   final picker = ImagePicker();
-  TextEditingController name  = TextEditingController();
-  TextEditingController comments  = TextEditingController(text: '');
+  TextEditingController name = TextEditingController();
+  TextEditingController comments = TextEditingController(text: '');
   FirebaseStorage storage = FirebaseStorage.instance;
 
   final ImagePicker _picker = ImagePicker();
-
 
   void _showPicker() {
     showModalBottomSheet(
@@ -61,8 +60,7 @@ class _AddFormSecondState extends State<AddFormSecond> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 
   _imgFromCamera() async {
@@ -71,6 +69,7 @@ class _AddFormSecondState extends State<AddFormSecond> {
     if (photo != null) {
       setState(() {
         _image.add(File(photo.path));
+        imagecomments.add('');
       });
     } else {
       print('No image selected');
@@ -79,7 +78,6 @@ class _AddFormSecondState extends State<AddFormSecond> {
 
   _imgFromGallery() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
 
     if (image != null) {
       setState(() {
@@ -92,13 +90,13 @@ class _AddFormSecondState extends State<AddFormSecond> {
 
   Future uploadImageToFirebase(File imageFile) async {
     try {
-      Reference ref = storage.ref().child(FirebaseAuth.instance.currentUser!.uid + DateTime.now().toString());
+      Reference ref = storage.ref().child(
+          FirebaseAuth.instance.currentUser!.uid + DateTime.now().toString());
       UploadTask uploadTask = ref.putFile(imageFile);
       uploadTask.then((res) {
-        res.ref.getDownloadURL().then((value){
+        res.ref.getDownloadURL().then((value) {
           imagesUrl.add(value);
         });
-
       });
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -107,15 +105,16 @@ class _AddFormSecondState extends State<AddFormSecond> {
     }
   }
 
-
   Future<List<String>> uploadFiles(List<File> _images) async {
-    var imageUrls = await Future.wait(_images.map((_image) => uploadFile(_image)));
+    var imageUrls =
+        await Future.wait(_images.map((_image) => uploadFile(_image)));
     print(imageUrls);
     return imageUrls;
   }
 
   Future<String> uploadFile(File _image) async {
-    Reference ref = storage.ref().child(FirebaseAuth.instance.currentUser!.uid + DateTime.now().toString());
+    Reference ref = storage.ref().child(
+        FirebaseAuth.instance.currentUser!.uid + DateTime.now().toString());
     UploadTask uploadTask = ref.putFile(_image);
     await uploadTask.whenComplete(() => null);
     return await ref.getDownloadURL();
@@ -126,6 +125,20 @@ class _AddFormSecondState extends State<AddFormSecond> {
     // TODO: implement initState
     super.initState();
   }
+
+  void onListUpdate(int index,String comment){
+    setState(() {
+      imagecomments[index]=comment;
+    });
+  }
+
+  void onListDelete(int index){
+    setState(() {
+      _image.removeAt(index);
+      imagecomments.removeAt(index);
+    });
+  }
+
   double scrollSpeedVariable = 5;
 
   @override
@@ -142,15 +155,20 @@ class _AddFormSecondState extends State<AddFormSecond> {
         ),
         actions: [],
       ),
-
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 15, top: 10),
           child: Column(
             children: [
-              SizedBox(height: 50,),
-              MobileAppLogo(height: 150,),
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
+              MobileAppLogo(
+                height: 150,
+              ),
+              SizedBox(
+                height: 50,
+              ),
               ChooseImages(),
               TextFieldApp(
                 radius: 10,
@@ -158,7 +176,9 @@ class _AddFormSecondState extends State<AddFormSecond> {
                 hint: 'Client Name',
                 controller: name,
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               TextFieldApp(
                 radius: 10,
                 colorwhite: Colors.black,
@@ -166,39 +186,49 @@ class _AddFormSecondState extends State<AddFormSecond> {
                 minline: 10,
                 controller: comments,
               ),
-              SizedBox(height: 40,),
+              SizedBox(
+                height: 40,
+              ),
               Container(
                   height: 45,
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(bottom: 20),
                   child: Container(
-                    child: GradientButton(buttonTEXT: 'Add Client Case', function: () async {
-                      FocusScope.of(context).unfocus();
-                      EasyLoading.show(status: 'Please Wait...');
+                    child: GradientButton(
+                      buttonTEXT: 'Add Client Case',
+                      function: () async {
+                        FocusScope.of(context).unfocus();
+                        EasyLoading.show(status: 'Please Wait...');
 
-                      if(name.text!=null && name.text!='' ){
-                        // for(int a=0;a<_image.length;a++){
-                        //  await uploadImageToFirebase(_image[a]);
-                        //  }
-                        imagesUrl = await uploadFiles(_image);
-                        FirebaseDB.addcase(name: name.text, comments: comments.text,iamges: imagesUrl);
-                        setState(() {
-                          imagesUrl.clear();
-                        });
-                        EasyLoading.dismiss();
+                        if (name.text != null && name.text != '') {
+                          // for(int a=0;a<_image.length;a++){
+                          //  await uploadImageToFirebase(_image[a]);
+                          //  }
+                          imagesUrl = await uploadFiles(_image);
+                          FirebaseDB.addcase(
+                              name: name.text,
+                              comments: comments.text,
+                              iamges: imagesUrl,commentsimage:imagecomments);
+                          setState(() {
+                            imagesUrl.clear();
+                          });
+                          EasyLoading.dismiss();
 
-                        EasyLoading.showToast('Case has been Added!',toastPosition: EasyLoadingToastPosition.bottom);
-                        Navigator.pop(context);
-                      }else{
-                        EasyLoading.showToast('Please enter Email & Password',toastPosition: EasyLoadingToastPosition.bottom);
-                      }
-                    },radius: 10,),
+                          EasyLoading.showToast('Case has been Added!',
+                              toastPosition: EasyLoadingToastPosition.bottom);
+                          Navigator.pop(context);
+                        } else {
+                          EasyLoading.showToast('Please enter Client Name',
+                              toastPosition: EasyLoadingToastPosition.bottom);
+                        }
+                      },
+                      radius: 10,
+                    ),
                   ))
             ],
           ),
         ),
       ),
-
     );
   }
 
@@ -218,9 +248,8 @@ class _AddFormSecondState extends State<AddFormSecond> {
               size: 20,
             ),
             Text(
-              "Add Images",style: TextStyle(
-                fontSize: 12
-            ),
+              "Add Images",
+              style: TextStyle(fontSize: 12),
               textAlign: TextAlign.center,
             ),
           ],
@@ -238,30 +267,30 @@ class _AddFormSecondState extends State<AddFormSecond> {
     );
   }
 
-  Widget ChooseImages(){
+  Widget ChooseImages() {
     return Container(
         child: GridView.count(
-          padding: EdgeInsets.only(bottom: 20),
-          crossAxisCount: 5,
-          shrinkWrap: true,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-          childAspectRatio: (150.0 / 200.0),
-          children: List.generate(_image.length+1, (index) {
-            if(index==0){
-              return AddImage(0);
-            }else{
-              print(index);
-              return myImageWidget(
-                  index-1,
-                  _image[index-1]
-              );
-            }
-          }
-          ),
-
-
-        ));
+      padding: EdgeInsets.only(bottom: 20),
+      crossAxisCount: 4,
+      shrinkWrap: true,
+      crossAxisSpacing: 15,
+      mainAxisSpacing: 15,
+      childAspectRatio: (150.0 / 200.0),
+      children: List.generate(_image.length + 1, (index) {
+        if (index == 0) {
+          return AddImage(0);
+        } else {
+          print(index);
+          return MyImageWidget(
+            context: context,
+            index: index - 1,
+            file: _image[index - 1],
+            onUpdate: onListUpdate,
+            comments: imagecomments,
+            onDelete: onListDelete,
+          );
+        }
+      }),
+    ));
   }
-
 }

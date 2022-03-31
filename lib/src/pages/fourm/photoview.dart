@@ -15,10 +15,16 @@ class _PhotoViewState extends State<PhotoViewCustom> {
   PageController? _pageController;
   @override
   void initState() {
+    firstPage=widget.fPage;
     _pageController = PageController(initialPage: widget.fPage);
-
     // TODO: implement initState
     super.initState();
+  }
+
+  void onPageChanged(int index) {
+    setState(() {
+      firstPage = index;
+    });
   }
 
   @override
@@ -34,30 +40,45 @@ class _PhotoViewState extends State<PhotoViewCustom> {
         ),
         actions: [],
       ),
-      body: PhotoViewGallery.builder(
-        pageController: _pageController,
-        scrollPhysics: const BouncingScrollPhysics(),
-        builder: (BuildContext context, int index) {
-          return PhotoViewGalleryPageOptions(
-            imageProvider: NetworkImage(widget.data['images'][index].toString()),
-            initialScale: PhotoViewComputedScale.contained * 0.8,
-            heroAttributes: PhotoViewHeroAttributes(tag: index.toString()),
-          );
-        },
-        itemCount: widget.data['images'].length,
-        loadingBuilder: (context, event) => Center(
-          child: Container(
-            width: 20.0,
-            height: 20.0,
-            child: CircularProgressIndicator(
-              value: event == null
-                  ? 0
-                  : 2,
+      body: Stack(children: [
+        PhotoViewGallery.builder(
+          onPageChanged: onPageChanged,
+          pageController: _pageController,
+          scrollPhysics: const BouncingScrollPhysics(),
+          builder: (BuildContext context, int index) {
+            return PhotoViewGalleryPageOptions(
+              imageProvider: NetworkImage(widget.data['images'][index].toString()),
+              initialScale: PhotoViewComputedScale.contained * 0.8,
+              heroAttributes: PhotoViewHeroAttributes(tag: widget.data['image_comments'][index].toString(),
+              ),
+            );
+          },
+          itemCount: widget.data['images'].length,
+          loadingBuilder: (context, event) => Center(
+            child: Container(
+              width: 20.0,
+              height: 20.0,
+              child: CircularProgressIndicator(
+                value: event == null
+                    ? 0
+                    : 2,
+              ),
             ),
           ),
-        ),
 
-      ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            widget.data['image_comments'][firstPage].toString(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 17.0,
+              decoration: null,
+            ),
+          ),
+        )
+      ],)
     );
   }
 }
